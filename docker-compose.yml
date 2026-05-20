@@ -1,0 +1,10 @@
+services:
+  postgres1c:
+    image: postgres1c:V16.13
+    build:
+      context: "postgrespro16-1c"
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - 15432:5432
+    restart: unless-stopped
