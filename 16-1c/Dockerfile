@@ -11,7 +11,7 @@ ENV LC_MONETARY="en_US.UTF8"
 ENV LC_NUMERIC="en_US.UTF8"
 ENV LC_TIME="en_US.UTF8"
 ENV LC_MESSAGES="en_US.UTF8"
-ENV PATH="/opt/pgpro/1c-18/bin:${PATH}"
+ENV PATH="/opt/pgpro/1c-16/bin:${PATH}"
 
 ENV GOSU_VERSION 1.17
 RUN set -eux; \
@@ -48,17 +48,30 @@ RUN set -eux; ln -svf gosu /usr/local/bin/su-exec; su-exec nobody true # backwar
 
 RUN mkdir /docker-entrypoint-initdb.d
 
-RUN wget https://repo.postgrespro.ru/1c/1c-18/keys/pgpro-repo-add.sh && \
+RUN wget https://repo.postgrespro.ru/1c/1c-16/keys/pgpro-repo-add.sh && \
     sh pgpro-repo-add.sh && \
-    apt-get install postgrespro-1c-18 -y && \
-    mkdir -p /var/lib/pgpro/1c-18/data && \
+    apt-get install postgrespro-1c-16 -y && \
+    mkdir -p /var/lib/pgpro/1c-16/data && \
     chown -R postgres:postgres /var/lib/pgpro/
 
 RUN sed -i '/en_US.UTF-8 UTF-8/s/^# //g' /etc/locale.gen && \
     sed -i '/ru_RU.UTF-8 UTF-8/s/^# //g' /etc/locale.gen && \
     locale-gen
 
-ENV PGDATA /var/lib/pgpro/1c-18/data
+# Install extensions
+RUN set -eux; \
+	\
+	apt install -y postgrespro-1c-16-dev; \
+	mkdir -p /usr/src/postgresql/contrib; \
+	cd /usr/src/postgresql/contrib; \
+	git clone -b master --single-branch --depth 1 "https://github.com/postgrespro/pg_wait_sampling.git"; \
+    git clone -b master --single-branch --depth 1 "https://github.com/powa-team/pg_stat_kcache.git"; \
+	git clone -b master --single-branch --depth 1 "https://github.com/zubkov-andrei/pg_profile.git"; \
+	make -C pg_wait_sampling USE_PGXS=y install; \
+	make -C pg_stat_kcache USE_PGXS=y install; \
+	make -C pg_profile USE_PGXS=y install
+	
+ENV PGDATA /var/lib/pgpro/1c-16/data
 
 RUN mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA" && chmod 1777 "$PGDATA"
 

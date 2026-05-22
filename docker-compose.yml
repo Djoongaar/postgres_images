@@ -1,21 +1,25 @@
 services:
-
-  postgrespro16_1c:
+  # PostgreSQL V16.13 for 1C
+  pg16_1c:
     image: postgrespro16_1c:V16.13
+    container_name: pg16_1c
     build:
-      context: "postgrespro16-1c"
+      context: "16-1c"
     environment:
       POSTGRES_PASSWORD: password
+      POSTGRES_INITDB_ARGS: --locale-provider=icu --icu-locale=ru-RU
     ports:
       - 15432:5432
     restart: unless-stopped
-
-  postgrespro18_1c:
-    image: postgrespro18_1c
+  # PostgreSQL V18.3 for 1C
+  pg18_1c:
+    image: postgrespro18_1c:V18.3
+    container_name: pg18_1c
     build:
-      context: "postgrespro18-1c"
+      context: "18-1c"
     environment:
       POSTGRES_PASSWORD: password
+      POSTGRES_INITDB_ARGS: --locale-provider=icu --icu-locale=ru-RU
     ports:
       - 25432:5432
     restart: unless-stopped
