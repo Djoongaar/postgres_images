@@ -1,7 +1,7 @@
 services:
   # PostgreSQL V16.13 for 1C
   pg16_1c:
-    image: postgrespro16_1c:V16.13
+    image: ghcr.io/djoongaar/postgres:V16-1c
     container_name: pg16_1c
     build:
       context: "16-1c"
@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
   # PostgreSQL V18.3 for 1C
   pg18_1c:
-    image: postgrespro18_1c:V18.3
+    image: ghcr.io/djoongaar/postgres:V18-1c
     container_name: pg18_1c
     build:
       context: "18-1c"
