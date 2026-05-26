@@ -23,3 +23,12 @@ services:
     ports:
       - 25432:5432
     restart: unless-stopped
+  # Oracle 11g Express edition
+  oracle_11g:
+    image: oracleinanutshell/oracle-xe-11g:latest
+    environment:
+      ORACLE_ALLOW_REMOTE: true
+      ORACLE_DISABLE_ASYNCH_IO: true
+      ORACLE_ENABLE_XDB: true
+    ports:
+      - 1521:1521
