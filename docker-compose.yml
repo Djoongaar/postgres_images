@@ -1,4 +1,12 @@
 services:
+  pg18:
+    image: ghcr.io/djoongaar/postgres:16-bookworm
+    container_name: pg18
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_INITDB_ARGS: --locale-provider=icu --icu-locale=ru-RU
   # PostgreSQL V16.13 for 1C
   pg16_1c:
     image: ghcr.io/djoongaar/postgres:V16-1c
@@ -8,8 +16,6 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_INITDB_ARGS: --locale-provider=icu --icu-locale=ru-RU
-    ports:
-      - 15432:5432
     restart: unless-stopped
   # PostgreSQL V18.3 for 1C
   pg18_1c:
@@ -20,8 +26,6 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_INITDB_ARGS: --locale-provider=icu --icu-locale=ru-RU
-    ports:
-      - 25432:5432
     restart: unless-stopped
   # Oracle 11g Express edition
   oracle_11g:
