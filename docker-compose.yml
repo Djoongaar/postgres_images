@@ -6,7 +6,7 @@ services:
       - "5432:5432"
     volumes:
       - "./pgdata/16:/var/lib/postgresql/data/16"
-    network_mode: "host"
+#    network_mode: "host"
     environment:
       POSTGRES_PASSWORD: password
       PGDATA: /var/lib/postgresql/data/16
@@ -40,3 +40,12 @@ services:
       ORACLE_ENABLE_XDB: true
     ports:
       - 1521:1521
+  grafana:
+    image: grafana/grafana:11.6
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./grafana:/var/lib/grafana"
+    environment:
+      GF_USERS_DEFAULT_THEME: "light"

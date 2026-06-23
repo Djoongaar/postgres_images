@@ -1,2 +1,4 @@
 pgdata
+grafana
+.DS_Store
 profile.logs
