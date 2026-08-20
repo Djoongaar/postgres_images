@@ -1,6 +1,6 @@
 services:
   pg16:
-    image: ghcr.io/djoongaar/postgres:16-bookworm
+    image: ghcr.io/djoongaar/postgres:V16
     container_name: pg16
     ports:
       - "5432:5432"
